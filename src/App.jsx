@@ -1,33 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Table from "./component/Table.jsx";
+import Button from "./component/Button.jsx";
+import { useState } from "react";
+import '../src/App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const numberAssessment = 4 
+  const numberStudent = 10
+  const [scores, setScores] = useState(() => {
+    return [...Array(numberAssessment)].reduce((result, _, i) => {
+      const assessmentKey = `aspek_penilaian_${i + 1}`;
+
+      result[assessmentKey] = [...Array(numberStudent)].reduce((students, _, j) => {
+        students[`mahasiswa_${j + 1}`] = 1;
+        return students;
+      }, {});
+
+      return result;
+    }, {})
+  })
+
+  function handleScoreChange(assessmentIndex, studentIndex, value){
+    const assessment = `aspek_penilaian_${assessmentIndex}`
+    const student = `mahasiswa_${studentIndex}`
+    setScores((prev => ({
+      ...prev,
+      [assessment]: {
+        ...prev[assessment],
+        [student]: value
+      }
+    })))
+  }
+
+  function handleSave() {
+    console.log(JSON.stringify(scores, null, 2));
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Aplikasi Penilaian Mahasiswa</h1>
+        <Table numberAssessment={numberAssessment}
+               numberStudent={numberStudent}
+               scores={scores}
+               onScoreChange={handleScoreChange}
+        />
+        <Button title={'Simpan'} handleClick={handleSave}/>
     </>
   )
 }

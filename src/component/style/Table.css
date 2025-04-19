@@ -1,0 +1,16 @@
+table, th, td {
+    margin: 0 auto;
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+.image-profile{
+    display: flex;
+    gap: 5px;
+}
+
+.image-profile img{
+    height: auto;
+    width: 25px;
+}
