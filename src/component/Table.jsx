@@ -31,7 +31,6 @@ const Table = memo(function Table({ numberAssessment, numberStudent, scores, onS
                         const assessmentKey = `aspek_penilaian_${assessmentValue}`;
                         const studentsKey = `mahasiswa_${studentValue}`;
                         const combineKey = scores[assessmentKey]?.[studentsKey] || 1
-                        console.info(combineKey);
 
                         return (
                             <td key={`${assessmentKey}${studentsKey}`}>
